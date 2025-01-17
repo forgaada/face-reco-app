@@ -1,0 +1,76 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  height: 16vh;  /* Fixed height for the header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: row;  /* Place video and data section side by side */
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%; /* Make video responsive */
+  max-width: 640px; /* Maintain aspect ratio */
+  height: auto;
+}
+
+.overlay-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Scale canvas with video */
+  height: auto;
+}
+
+.data-container {
+  margin-left: 20px;
+  width: 300px; /* Fixed width for data section */
+  text-align: left;
+  font-size: 1rem;
+}
+
+h2, h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;  /* Stack video and data section on mobile */
+    align-items: center;
+  }
+
+  .video-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .data-container {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .overlay-canvas {
+    width: 100%;
+    height: auto;
+  }
+}
