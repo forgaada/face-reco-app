@@ -1,0 +1,14 @@
+
+.main-red, .main-red:focus {
+    background-color: var(--main-red);
+    border: 1px solid var(--main-red);
+}
+
+.main-red:hover, .main-red:active {
+    background-color: #ac3138;
+    border: 1px solid #ac3138;
+}
+
+.fa-icon-red:hover, .fa-icon-red:active {
+    color: var(--main-red);
+}

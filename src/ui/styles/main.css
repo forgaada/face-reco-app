@@ -1,0 +1,163 @@
+@import "components/heading.css";
+@import "common.css";
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--main-bg-color);
+}
+
+h2, h3 {
+    font-size: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+.main-content {
+    display: flex;
+    flex-direction: row;  /* Place video and data section side by side */
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.video-container {
+    position: relative;
+    background-image: url("../../../public/images/disable-camera.png");
+    width: 100%; /* Make video responsive */
+    max-width: 640px; /* Maintain aspect ratio */
+    height: auto;
+}
+
+.overlay-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Scale canvas with video */
+    height: auto;
+}
+
+.data-container {
+    margin-left: 20px;
+    height: 480px;
+    width: 300px;
+    text-align: left;
+    font-size: 1rem;
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.11);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.btn-fixed {
+    height: 38px;
+    width: 125px;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.lower-font {
+    font-size: 90%;
+}
+
+.ml-64 {
+    margin-left: 64px;
+}
+
+.mr-1-em {
+    margin-right: 1em;
+}
+
+.ml-5-px {
+    margin-left: 5px;
+}
+
+.mr-25-px {
+    margin-right: 25px;
+}
+
+.main-container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.w-125 {
+    width: 125px;
+}
+
+.w-115 {
+    width: 115px;
+}
+
+
+.w-150 {
+    width: 150px;
+}
+
+.w-175 {
+    width: 175px;
+}
+
+.w-205 {
+    width: 205px;
+}
+
+.w-85 {
+    width: 85% !important;
+}
+
+.alert-window {
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.truncated {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 1px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;  /* Stack video and data section on mobile */
+        align-items: center;
+    }
+
+    .video-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .data-container {
+        margin-left: 0;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .overlay-canvas {
+        width: 100%;
+        height: auto;
+    }
+}

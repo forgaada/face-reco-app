@@ -1,0 +1,21 @@
+@import "../variables.css";
+
+.heading-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: var(--secondary-bg-color);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.11);
+}
+
+.heading-label {
+    color: var(--secondary-text) !important;
+    font-size: 24px !important;
+    font-weight: 510 !important;
+    border: none !important;
+}
+
+.page-logo {
+    margin-left: 20px;
+}
