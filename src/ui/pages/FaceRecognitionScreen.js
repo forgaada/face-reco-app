@@ -1,110 +1,58 @@
-import '@tensorflow/tfjs-core';
-import '@tensorflow/tfjs-converter';
-import * as tf from '@tensorflow/tfjs';
 import {useEffect, useRef, useState} from "react";
-import * as faceLandmarksDetection from "@tensorflow-models/face-landmarks-detection";
+import 'tracking/build/tracking-min.js';
+import 'tracking/build/data/face-min.js';
 
 /**
  * Main screen of the application where user uses camera for face detection.
  */
 const FaceRecognitionScreen = () => {
     const videoRef = useRef(null);
-    const canvasRef = useRef(null);
+    const canvasRef = useRef(null); // Canvas ref for clearing and drawing
     const [faces, setFaces] = useState([]);
     const [videoWidth, setVideoWidth] = useState(640);
     const [videoHeight, setVideoHeight] = useState(480);
-    const [modelLoaded, setModelLoaded] = useState(false);
-    const [detector, setDetector] = useState(null);
 
     useEffect(() => {
-        // Set the backend to WebGL (or CPU if needed)
-        tf.setBackend('webgl').then(() => {
-            console.log("TensorFlow.js backend set to WebGL.");
-        }).catch(err => {
-            console.error("Error setting backend:", err);
-        });
-
-        console.log("Starting video stream...");
+        // Ensure the video stream is fetched and shown
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
-                    console.log("Video stream started.");
                 }
-            }).catch(err => console.error("Error accessing camera: ", err));
+            }).catch(err => {
+            console.error("Error accessing camera: ", err);
+        });
 
-        const loadModel = async () => {
-            console.log("Loading face detection model...");
-            const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
-            const detectorConfig = {
-                runtime: 'tfjs',
-                maxFaces: 1 // Limit to 1 face
-            };
-            const detector = await faceLandmarksDetection.createDetector(model, detectorConfig);
-            console.log("Model loaded successfully.");
-            setModelLoaded(true); // Set model loaded state
-            setDetector(detector); // Set the detector
-        };
+        // Tracking setup
+        const tracker = new window.tracking.ObjectTracker('face');
+        tracker.setInitialScale(0.8);
+        tracker.setStepSize(2);
+        tracker.setEdgesDensity(0.1);
 
-        loadModel();
+        window.tracking.track(videoRef.current, tracker, { camera: true });
 
+        // Track faces
+        tracker.on('track', (event) => {
+            setFaces(event.data);  // Save face data
+        });
     }, []);
-
-    const detectFaces = async () => {
-        if (!modelLoaded || !detector || !videoRef.current || videoRef.current.readyState !== 4) {
-            // Stop recursion if model is not loaded, or video is not ready
-            return;
-        }
-
-        console.log("Detecting faces...");
-        const detectedFaces = await detector.estimateFaces(videoRef.current, { flipHorizontal: false });
-        setFaces(detectedFaces);
-
-        // Request next frame
-        requestAnimationFrame(detectFaces);
-    };
-
-    useEffect(() => {
-        if (modelLoaded && detector) {
-            detectFaces(); // Start face detection when model is loaded
-        }
-    }, [modelLoaded, detector]); // Trigger detectFaces when modelLoaded or detector changes
 
     useEffect(() => {
         if (canvasRef.current && faces.length > 0) {
-            console.log("Drawing faces on canvas...");
             const context = canvasRef.current.getContext('2d');
-            context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+            context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height); // Clear canvas
 
-            faces.forEach(face => {
-                const keypoints = face.keypoints;
-                console.log("Keypoints: ", keypoints);
-
-                const xCoords = keypoints.map(point => point.x);
-                const yCoords = keypoints.map(point => point.y);
-
-                const xMin = Math.min(...xCoords);
-                const xMax = Math.max(...xCoords);
-                const yMin = Math.min(...yCoords);
-                const yMax = Math.max(...yCoords);
-
-                context.strokeStyle = '#00FF00';
-                context.lineWidth = 2;
-                context.strokeRect(xMin, yMin, xMax - xMin, yMax - yMin);
-
-                keypoints.forEach(point => {
-                    context.fillStyle = 'red';
-                    context.beginPath();
-                    context.arc(point.x, point.y, 2, 0, 2 * Math.PI);
-                    context.fill();
-                });
+            // Draw the rectangles for each detected face
+            faces.forEach((face) => {
+                context.strokeStyle = '#ff0000';
+                context.lineWidth = 4;
+                context.strokeRect(face.x, face.y, face.width, face.height);
             });
-        } else {
-            console.log("No faces to draw.");
         }
-    }, [faces]);
+    }, [faces]); // Re-render whenever faces change
 
     const firstFace = faces[0];
+
 
     return(
         <div className='main-content'>
