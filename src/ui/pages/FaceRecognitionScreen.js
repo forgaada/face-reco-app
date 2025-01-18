@@ -31,7 +31,6 @@ const FaceRecognitionScreen = () => {
 
         window.tracking.track(videoRef.current, tracker, { camera: true });
 
-        // Track faces
         tracker.on('track', (event) => {
             setFaces(event.data);  // Save face data
         });
@@ -49,9 +48,7 @@ const FaceRecognitionScreen = () => {
                 context.strokeRect(face.x, face.y, face.width, face.height);
             });
         }
-    }, [faces]); // Re-render whenever faces change
-
-    const firstFace = faces[0];
+    }, [faces]);
 
 
     return(
@@ -66,21 +63,15 @@ const FaceRecognitionScreen = () => {
                 />
             </div>
             <div className="data-container">
-                <h2>Video Data</h2>
-                <p>Width: {videoWidth}px</p>
-                <p>Height: {videoHeight}px</p>
                 <h3>Face Details</h3>
                 {faces.length > 0 ? (
-                    <div>
-                        <p>Keypoints: {firstFace.keypoints.length}</p>
-                        <p>Top-left: ({Math.min(...firstFace.keypoints.map(p => p.x)).toFixed(2)},
-                            {Math.min(...firstFace.keypoints.map(p => p.y)).toFixed(2)})</p>
-                        <p>Bottom-right: ({Math.max(...firstFace.keypoints.map(p => p.x)).toFixed(2)},
-                            {Math.max(...firstFace.keypoints.map(p => p.y)).toFixed(2)})</p>
-                    </div>
+                    <p>{faces.length} faces detected.</p>
                 ) : (
                     <p>No faces detected yet.</p>
                 )}
+                <h3>Video Data</h3>
+                <p>Width: {videoWidth}px</p>
+                <p>Height: {videoHeight}px</p>
             </div>
         </div>
     )

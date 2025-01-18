@@ -37,9 +37,9 @@ p {
 .video-container {
     position: relative;
     background-image: url("../../../public/images/disable-camera.png");
-    width: 100%; /* Make video responsive */
-    max-width: 640px; /* Maintain aspect ratio */
-    height: auto;
+    width: 100%;
+    max-width: 640px;
+    height: 480px;
 }
 
 .overlay-canvas {
