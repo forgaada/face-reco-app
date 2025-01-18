@@ -154,6 +154,8 @@ p {
         margin-left: 0;
         margin-top: 20px;
         width: 100%;
+        min-height: 20vh;
+        height: auto;
     }
 
     .overlay-canvas {

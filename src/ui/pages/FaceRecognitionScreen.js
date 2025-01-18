@@ -69,9 +69,6 @@ const FaceRecognitionScreen = () => {
                 ) : (
                     <p>No faces detected yet.</p>
                 )}
-                <h3>Video Data</h3>
-                <p>Width: {videoWidth}px</p>
-                <p>Height: {videoHeight}px</p>
             </div>
         </div>
     )
