@@ -3,9 +3,9 @@ import {Label} from "reactstrap";
 const PageLogo = () => {
 
     return (
-        <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center page-logo'>
             <Label className="heading-label">
-                Face Recognition App
+                Recognition App
             </Label>
         </div>
     )

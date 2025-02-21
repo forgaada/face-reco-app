@@ -4,6 +4,7 @@ import Heading from "./ui/structure/Heading";
 import {Container, Row} from "reactstrap";
 import PageNotFound from "./ui/pages/PageNotFound";
 import FaceRecognitionScreen from "./ui/pages/FaceRecognitionScreen";
+import HomeScreen from "./ui/pages/HomeScreen";
 
 function App() {
     return (
@@ -14,7 +15,8 @@ function App() {
                     <Suspense>
                         <Routes>
                             <Route path='/' element={<Navigate to="/home" />} />
-                            <Route exact path='/home' element={<FaceRecognitionScreen />} />
+                            <Route exact path='/home' element={<HomeScreen />} />
+                            {/*<Route exact path='/face-recognition' element={<FaceRecognitionScreen />} />*/}
                             <Route path='*' element={<PageNotFound />} />
                         </Routes>
                     </Suspense>

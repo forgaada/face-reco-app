@@ -132,6 +132,10 @@ p {
     cursor: pointer;
 }
 
+.secondary-text {
+    color: var(--secondary-text);
+}
+
 .truncated {
     white-space: nowrap;
     text-overflow: ellipsis;

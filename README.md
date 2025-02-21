@@ -1,6 +1,6 @@
-# Face Recognition App
+# Recognition App
 
-Simple Single Page Application for face recognition
+Simple Single Page Application for AI bot and face recognition purposes.
 
 Try running demo on: https://face-reco-app-c47e1.web.app/
 
