@@ -16,6 +16,7 @@
     "cra-template": "1.2.0",
     "face-api.js": "^0.22.2",
     "firebase": "^11.3.1",
+    "groq-sdk": "^0.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^8.0.5",

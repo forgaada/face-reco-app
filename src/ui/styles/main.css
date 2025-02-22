@@ -1,4 +1,5 @@
 @import "components/heading.css";
+@import "components/chatbot.css";
 @import "common.css";
 
 body {
@@ -28,10 +29,9 @@ p {
 
 .main-content {
     display: flex;
-    flex-direction: row;  /* Place video and data section side by side */
+    flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 20px;
 }
 
 .video-container {

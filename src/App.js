@@ -3,14 +3,13 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Heading from "./ui/structure/Heading";
 import {Container, Row} from "reactstrap";
 import PageNotFound from "./ui/pages/PageNotFound";
-import FaceRecognitionScreen from "./ui/pages/FaceRecognitionScreen";
 import HomeScreen from "./ui/pages/HomeScreen";
 
 function App() {
     return (
         <BrowserRouter>
             <Heading/>
-            <Container fluid className='d-flex flex-grow-1 flex-column w-85'>
+            <Container fluid className='d-flex flex-grow-1 flex-column'>
                 <Row className=''>
                     <Suspense>
                         <Routes>
