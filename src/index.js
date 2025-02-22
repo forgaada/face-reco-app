@@ -9,6 +9,7 @@ import {Provider} from "react-redux";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import Groq from "groq-sdk";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -25,6 +26,8 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 export const db = getFirestore(app);
 
+// Initialize groq API
+export const groq = new Groq({apiKey: process.env.REACT_APP_GROQ_API_KEY, dangerouslyAllowBrowser: true});
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,40 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Groq from "groq-sdk";
+import {getGroqChatCompletion} from "../../../core/utils/apiRequest";
 
 const Chatbot = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const loggedUser = useSelector((state) => state.user?.user);
-    const groq = new Groq({apiKey: process.env.REACT_APP_GROQ_API_KEY, dangerouslyAllowBrowser: true});
-
-    const getGroqChatCompletion = async (message) => {
-        try {
-            const response = await groq.chat.completions.create({
-                messages: [
-                    {
-                        role: "system",
-                        content: "you are a helpful assistant.",
-                    },
-                    {
-                        role: "user",
-                        content: message,
-                    },
-                ],
-                model: "llama-3.3-70b-versatile",
-                temperature: 0.5,
-                max_completion_tokens: 1024,
-                top_p: 1,
-                stop: null,
-                stream: false,
-            });
-            return response.choices[0].message.content;
-        } catch (error) {
-            console.error("Error getting chat completion:", error);
-            return "Sorry, I encountered an error while processing your request.";
-        }
-    };
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
