@@ -1,6 +1,6 @@
 import {groq} from "../../index";
 
-export const getGroqChatCompletion = async (message) => {
+export const getGroqChatCompletion = async (messages) => {
     try {
         const response = await groq.chat.completions.create({
             messages: [
@@ -8,10 +8,10 @@ export const getGroqChatCompletion = async (message) => {
                     role: "system",
                     content: "you are a helpful assistant.",
                 },
-                {
-                    role: "user",
-                    content: message,
-                },
+                ...messages.map(msg => ({
+                    role: msg.isUser ? "user" : "assistant",
+                    content: msg.text
+                }))
             ],
             model: "llama-3.3-70b-versatile",
             temperature: 0.5,

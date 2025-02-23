@@ -12,12 +12,13 @@ const Chatbot = () => {
         e.preventDefault();
         if (input.trim() === '') return;
 
-        setMessages(prevMessages => [...prevMessages, {text: input, isUser: true}]);
+        const newMessages = [...messages, {text: input, isUser: true}];
+        setMessages(newMessages);
         setInput('');
         setIsLoading(true);
 
         try {
-            const response = await getGroqChatCompletion(input);
+            const response = await getGroqChatCompletion(newMessages);
             setMessages(prevMessages => [...prevMessages, {text: response, isUser: false}]);
         } catch (error) {
             console.error("Error in handleSendMessage:", error);
@@ -26,6 +27,7 @@ const Chatbot = () => {
             setIsLoading(false);
         }
     };
+
 
     if (Object.keys(loggedUser).length === 0) {
         return (
