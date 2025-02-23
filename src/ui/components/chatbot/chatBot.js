@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {getGroqChatCompletion} from "../../../core/utils/apiRequest";
+import {Button, Form, Input} from "reactstrap";
 
 const Chatbot = () => {
     const [messages, setMessages] = useState([]);
@@ -48,16 +49,18 @@ const Chatbot = () => {
                 ))}
                 {isLoading && <div className="bot-message">Thinking...</div>}
             </div>
-            <form onSubmit={handleSendMessage}>
-                <input
+            <Form onSubmit={handleSendMessage}>
+                <Input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type a message..."
                     disabled={isLoading}
                 />
-                <button type="submit" disabled={isLoading}>Send</button>
-            </form>
+                <Button className="main-red" type="submit" disabled={isLoading}>
+                    Send
+                </Button>
+            </Form>
         </div>
     );
 };
