@@ -6,6 +6,7 @@ import LoginModal from "./LoginModal";
 import {useDispatch, useSelector} from "react-redux";
 import {auth} from "../../../index";
 import {signOutUser} from "../../../redux/actions/userActions";
+import _ from 'lodash';
 
 /**
  * Field containing information about signed user (with modal window).
@@ -47,10 +48,10 @@ const UserInfo = () => {
     return (
         <>
             <div className='d-flex align-items-center cursor-pointer fa-icon-red' style={{marginRight: '15px'}}
-                 onClick={loggedUser && loggedUser.email ? toggle : toggleLogIn}>
+                 onClick={!_.isEmpty(loggedUser) ? toggle : toggleLogIn}>
                 <FontAwesomeIcon icon={faUser} className='fa-sm cursor-pointer secondary-text' style={{marginBottom: '5px'}}></FontAwesomeIcon>
-                {loggedUser && loggedUser.email ?
-                    <Label style={{marginLeft: '10px'}} className='cursor-pointer fw-semibold secondary-text' id='data-cy-signout-label'>{loggedUser.email}</Label>
+                {!_.isEmpty(loggedUser) ?
+                    <Label style={{marginLeft: '10px'}} className='cursor-pointer fw-semibold secondary-text' id='data-cy-signout-label'>{loggedUser.email|| 'Anonymous'}</Label>
                     :
                     <Label style={{marginLeft: '10px'}} className='cursor-pointer fw-semibold secondary-text' id='data-cy-login-label'>Log in</Label>
                 }
@@ -60,10 +61,10 @@ const UserInfo = () => {
                     <div className='d-flex flex-column'>
                         <FontAwesomeIcon icon={faUser} size='7x' className='mb-2 opacity-25'/>
                         <div className='d-flex justify-content-center'>
-                            <h3>{loggedUser.email}</h3>
+                            <h3>{loggedUser.email ? loggedUser.email : "Anonymous"}</h3>
                         </div>
                         <div className='d-flex justify-content-center'>
-                            <h5>You are logged in as a test user.</h5>
+                            <h5>You are logged in {loggedUser.email ? "with email" : "as a quest"}.</h5>
                         </div>
                     </div>
                 </ModalBody>

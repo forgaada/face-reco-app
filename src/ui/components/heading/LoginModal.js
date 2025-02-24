@@ -14,7 +14,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {signInWithEmailAndPassword, setPersistence, browserSessionPersistence} from "firebase/auth";
+import {signInWithEmailAndPassword, setPersistence, browserSessionPersistence, signInAnonymously} from "firebase/auth";
 import {auth} from "../../../index";
 import {loadUser} from "../../../redux/actions/userActions";
 
@@ -82,6 +82,17 @@ const LoginModal = ({isOpen, toggleHandler}) => {
         logInUserFirebase(auth, userEmail, userPassword, true)
     }
 
+    const logInAnonymously = () => {
+        signInAnonymously(auth)
+            .then(() => toggleHandler())
+            .catch((error) => {
+                toggleErrorAlert();
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage)
+            })
+    }
+
     return (
         <>
             <Modal isOpen={isOpen} size={"lg"} centered>
@@ -101,8 +112,12 @@ const LoginModal = ({isOpen, toggleHandler}) => {
                         <div className='d-flex justify-content-center'>
                             <FormGroup className='d-flex flex-column w-50'>
                                 <Label for="data-cy-login-passwd">Password</Label>
-                                <Input type="password" id="data-cy-login-passwd" name="userPasswd" placeholder="Type password..."
+                                <Input type="password" id="data-cy-login-passwd" name="userPasswd"
+                                       placeholder="Type password..."
                                        onChange={(input) => onUserPasswordChanged(input.target.value)}/>
+                                <Label className='d-flex justify-content-center custom-label' onClick={logInAnonymously}>
+                                    <FontAwesomeIcon icon={faUser} className="user-icon"/> Continue as a quest
+                                </Label>
                             </FormGroup>
                         </div>
                     </div>
