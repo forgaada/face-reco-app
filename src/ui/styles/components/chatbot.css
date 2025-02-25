@@ -9,6 +9,7 @@
     background-color: var(--secondary-bg-color);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .chat-messages {
@@ -117,6 +118,21 @@ button:hover {
     margin-bottom: 20px;
 }
 
+.chatbot-header {
+    display: flex;
+    padding-top: 5px;
+    background-color: white;
+    padding-right: 10px;
+}
+
+.model-info {
+    flex-grow: 1;
+    text-align: end;
+    opacity: 0.5;
+    cursor: pointer;
+    color: var(--primary-text);
+}
+
 @media screen and (max-width: 768px) {
     .chatbot {
         max-width: 100%;
@@ -124,6 +140,11 @@ button:hover {
         margin: 0;
         border-radius: 0;
         box-shadow: none;
+    }
+
+    .chatbot-header {
+        background-color: var(--main-bg-color);
+        padding-right: 0;
     }
 
     .chat-messages {

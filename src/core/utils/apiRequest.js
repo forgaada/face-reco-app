@@ -1,6 +1,6 @@
 import {groq} from "../../index";
 
-export const getGroqChatCompletion = async (messages) => {
+export const getGroqChatCompletion = async (messages, model) => {
     try {
         const response = await groq.chat.completions.create({
             messages: [
@@ -13,7 +13,7 @@ export const getGroqChatCompletion = async (messages) => {
                     content: msg.text
                 }))
             ],
-            model: "llama-3.3-70b-versatile",
+            model: model,
             temperature: 0.5,
             max_completion_tokens: 512,
             top_p: 1,

@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { getGroqChatCompletion } from '../../../core/utils/apiRequest';
 import { Button, Form, Input, Tooltip } from 'reactstrap';
 import _ from 'lodash';
-import { faPaperPlane, faTrash, faComments } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faTrash, faComments, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SettingsModal from './SettingsModal';
 
 const Chatbot = () => {
     const [messages, setMessages] = useState([]);
@@ -12,10 +13,14 @@ const Chatbot = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [clearTooltipOpen, setClearTooltipOpen] = useState(false);
     const [sendTooltipOpen, setSendTooltipOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
     const loggedUser = useSelector((state) => state.user?.user);
+    const model = useSelector((state) => state.settings?.settings?.model);
 
     const toggleClearTooltip = () => setClearTooltipOpen(!clearTooltipOpen);
     const toggleSendTooltip = () => setSendTooltipOpen(!sendTooltipOpen);
+    const toggleSettingsModal = () => setIsSettingsOpen(!isSettingsOpen);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -26,8 +31,10 @@ const Chatbot = () => {
         setInput('');
         setIsLoading(true);
 
+        console.log(model);
+
         try {
-            const response = await getGroqChatCompletion(newMessages);
+            const response = await getGroqChatCompletion(newMessages, model);
             setMessages(prevMessages => [...prevMessages, { text: response, isUser: false }]);
         } catch (error) {
             console.error('Error in handleSendMessage:', error);
@@ -59,20 +66,31 @@ const Chatbot = () => {
 
     return (
         <div className="chatbot">
+            <div className="chatbot-header">
+                <span className="model-info" onClick={toggleSettingsModal}>
+                    model: {model}
+                    <FontAwesomeIcon
+                        icon={faAngleDown}
+                        size='m'
+                        className='opacity-75 ml-5-px'
+                    />
+                </span>
+            </div>
             <div className="chat-messages">
                 {messages.length === 0 && !isLoading && (
                     <div className="empty-chat-message">
-                        <FontAwesomeIcon icon={faComments} size="2x" className="empty-chat-icon" />
+                        <FontAwesomeIcon icon={faComments} size="2x" className="empty-chat-icon"/>
                         <p>No messages yet. Start the conversation!</p>
                     </div>
                 )}
                 {messages.map((msg, index) => (
                     <div key={index} className={msg.isUser ? 'user-message' : 'bot-message'}>
-                        <span dangerouslySetInnerHTML={renderMessage(msg.text)} />
+                        <span dangerouslySetInnerHTML={renderMessage(msg.text)}/>
                     </div>
                 ))}
                 {isLoading && <div className="bot-message">Thinking...</div>}
             </div>
+
             <Form onSubmit={handleSendMessage}>
                 <Input
                     type="text"
@@ -82,18 +100,21 @@ const Chatbot = () => {
                     disabled={isLoading}
                 />
                 <Button id="sendButton" className="main-red" type="submit" disabled={isLoading}>
-                    <FontAwesomeIcon icon={faPaperPlane} size='m' className='opacity-75' />
+                    <FontAwesomeIcon icon={faPaperPlane} size='m' className='opacity-75'/>
                 </Button>
-                <Button id="clearMessagesButton" className="main-red" type="button" onClick={handleClearMessages} disabled={isLoading}>
-                    <FontAwesomeIcon icon={faTrash} size='m' className='opacity-75' />
+                <Button id="clearMessagesButton" className="main-red" type="button" onClick={handleClearMessages}
+                        disabled={isLoading}>
+                    <FontAwesomeIcon icon={faTrash} size='m' className='opacity-75'/>
                 </Button>
                 <Tooltip placement="top" isOpen={sendTooltipOpen} target="sendButton" toggle={toggleSendTooltip}>
                     Send
                 </Tooltip>
-                <Tooltip placement="top" isOpen={clearTooltipOpen} target="clearMessagesButton" toggle={toggleClearTooltip}>
+                <Tooltip placement="top" isOpen={clearTooltipOpen} target="clearMessagesButton"
+                         toggle={toggleClearTooltip}>
                     This will delete all messages
                 </Tooltip>
             </Form>
+            <SettingsModal isOpen={isSettingsOpen} toggleHandler={toggleSettingsModal}/>
         </div>
     );
 };
