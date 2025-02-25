@@ -150,6 +150,7 @@ button:hover {
     .chat-messages {
         height: calc(100vh - 70px);
         background-color: var(--main-bg-color);
+        padding-bottom: 70px;
     }
 
     form {

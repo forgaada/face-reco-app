@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { getGroqChatCompletion } from '../../../core/utils/apiRequest';
 import { Button, Form, Input, Tooltip } from 'reactstrap';
@@ -14,6 +14,7 @@ const Chatbot = () => {
     const [clearTooltipOpen, setClearTooltipOpen] = useState(false);
     const [sendTooltipOpen, setSendTooltipOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const chatMessagesRef = useRef(null);
 
     const loggedUser = useSelector((state) => state.user?.user);
     const model = useSelector((state) => state.settings?.settings?.model);
@@ -21,6 +22,12 @@ const Chatbot = () => {
     const toggleClearTooltip = () => setClearTooltipOpen(!clearTooltipOpen);
     const toggleSendTooltip = () => setSendTooltipOpen(!sendTooltipOpen);
     const toggleSettingsModal = () => setIsSettingsOpen(!isSettingsOpen);
+
+    useEffect(() => {
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -76,7 +83,7 @@ const Chatbot = () => {
                     />
                 </span>
             </div>
-            <div className="chat-messages">
+            <div className="chat-messages" ref={chatMessagesRef}>
                 {messages.length === 0 && !isLoading && (
                     <div className="empty-chat-message">
                         <FontAwesomeIcon icon={faComments} size="2x" className="empty-chat-icon"/>
